@@ -2,13 +2,17 @@ import { defineMiddleware } from 'astro:middleware';
 import { db, Role, User } from 'astro:db';
 import { v4 as UUID } from "uuid";
 import bcrypt from "bcryptjs";
+import { getSession } from 'auth-astro/server';
+
+
 //import { getSession } from 'auth-astro/server';
 
 const notAuthenticatedRoutes = ['/login', '/register'];
 
 export const onRequest = defineMiddleware(
   async ({ url, locals, redirect }, next) => {
-
+    
+   // const session = await getSession(Astro.request);
 
 
 
