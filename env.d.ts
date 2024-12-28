@@ -6,6 +6,8 @@
 interface User {
     name: string;
     email: string;
+    // emailVerified: boolean;
+    // avatar: string;
     // TODO:
   }
   
