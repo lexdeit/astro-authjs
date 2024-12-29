@@ -1,4 +1,6 @@
 ---
+import { CartCounter } from "../cart/CartCounter";
+
 const { isLoggedIn, isAdmin } = Astro.locals;
 ---
 
@@ -11,6 +13,8 @@ const { isLoggedIn, isAdmin } = Astro.locals;
   </h1>
   <div class="flex items-center">
     <ul class="flex items-center space-x-6">
+      <CartCounter />
+
       <li class="font-semibold text-gray-700">
         <a href="/">Home</a>
       </li>
@@ -38,12 +42,12 @@ const { isLoggedIn, isAdmin } = Astro.locals;
 </nav>
 
 <script>
-  const { signOut } = await import('auth-astro/client');
+  const { signOut } = await import("auth-astro/client");
 
-  const logoutElem = document.querySelector('#logout') as HTMLLIElement;
+  const logoutElem = document.querySelector("#logout") as HTMLLIElement;
 
-  logoutElem?.addEventListener('click', async () => {
+  logoutElem?.addEventListener("click", async () => {
     await signOut();
-    window.location.href = '/';
+    window.location.href = "/";
   });
 </script>
