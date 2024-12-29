@@ -1,8 +1,9 @@
 import { defineMiddleware } from 'astro:middleware';
-import { db, Role, User } from 'astro:db';
+import { db, Role, User, Product, ProductImage } from 'astro:db';
 import { v4 as UUID } from "uuid";
 import bcrypt from "bcryptjs";
 import { getSession } from 'auth-astro/server';
+import { seedProducts } from 'db/seed-data';
 
 
 //import { getSession } from 'auth-astro/server';
@@ -43,6 +44,37 @@ export const onRequest = defineMiddleware(
       await db.insert(Role).values(roles);
 
       await db.insert(User).values([newUser, newUser2]);
+
+
+
+      const queries: any = [];
+
+
+      seedProducts.forEach(p => {
+        const product = {
+          id: UUID(),
+          ...p,
+          user: newUser.id,
+          sizes: p.sizes.join(","),
+          tags: p.tags.join(","),
+        };
+
+        queries.push(db.insert(Product).values(product));
+
+        p.images.forEach(img => {
+
+          const image = {
+            id: UUID(),
+            image: img,
+            productId: product.id,
+          };
+          queries.push(db.insert(ProductImage).values(image));
+        });
+
+      });
+
+      await db.batch(queries);
+
       console.log("Se ejecuto el seed");
     }
 
