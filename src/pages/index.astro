@@ -9,10 +9,6 @@ const url = Astro.url;
 const pageParam = Number(Astro.url.searchParams.get("page")) || 1;
 
 
-
-
-console.log(pageParam);
-
 const { data, error } = await Astro.callAction(actions.getProductsByPage, {
   page: pageParam,
 });
