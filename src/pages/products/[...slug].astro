@@ -64,58 +64,68 @@ const image = images[0];
     import { CartCookiesClient } from "@/lib/cart-cookies";
     import { itemsInCart } from "@/stores/cart.store";
 
-    const sizeElements = document.querySelectorAll("li");
+    document.addEventListener("astro:page-load", () => {
+        const sizeElements = document.querySelectorAll("li");
 
-    sizeElements.forEach((liElement) => {
-        liElement.addEventListener("click", (event) => {
-            sizeElements.forEach((s) => s.classList.remove("selected-size"));
+        sizeElements.forEach((liElement) => {
+            liElement.addEventListener("click", (event) => {
+                sizeElements.forEach((s) =>
+                    s.classList.remove("selected-size"),
+                );
 
-            liElement.classList.add("selected-size");
+                liElement.classList.add("selected-size");
+            });
         });
-    });
 
-    const quantityInput = document.querySelector("input") as HTMLInputElement;
-    const productIdInput = document.querySelector(
-        "#product-id",
-    ) as HTMLInputElement;
+        const quantityInput = document.querySelector(
+            "input",
+        ) as HTMLInputElement;
+        const productIdInput = document.querySelector(
+            "#product-id",
+        ) as HTMLInputElement;
 
-    let quantity = 1;
+        let quantity = 1;
 
-    const [decrementButton, incrementButton, addToCartButton] =
+        
+        const [decrementButton, incrementButton, addToCartButton] =
         document.querySelectorAll("button");
 
-    incrementButton.addEventListener("click", () => {
-        quantity = Math.min(quantity + 1, 5);
 
-        quantityInput.value = quantity.toString();
-    });
+        if (!incrementButton || !productIdInput) return;
 
-    decrementButton.addEventListener("click", () => {
-        quantity = Math.max(quantity - 1, 1);
+        incrementButton.addEventListener("click", () => {
+            quantity = Math.min(quantity + 1, 5);
 
-        quantityInput.value = quantity.toString();
-    });
-
-    addToCartButton.addEventListener("click", () => {
-        const size = document.querySelector(".selected-size")?.textContent;
-
-        if (!size) {
-            return alert("Size doesnt exist");
-        }
-
-        // addToCartButton.disabled = true;
-
-        const productId = productIdInput.value;
-
-        const cart = CartCookiesClient.addItem({
-            productId: productId,
-            size: size,
-            quantity: quantity.toString(),
+            quantityInput.value = quantity.toString();
         });
 
-        itemsInCart.set(cart.length);
+        decrementButton.addEventListener("click", () => {
+            quantity = Math.max(quantity - 1, 1);
 
-        // window.location.href = `/cart`;
+            quantityInput.value = quantity.toString();
+        });
+
+        addToCartButton.addEventListener("click", () => {
+            const size = document.querySelector(".selected-size")?.textContent;
+
+            if (!size) {
+                return alert("Size doesnt exist");
+            }
+
+            // addToCartButton.disabled = true;
+
+            const productId = productIdInput.value;
+
+            const cart = CartCookiesClient.addItem({
+                productId: productId,
+                size: size,
+                quantity: quantity.toString(),
+            });
+
+            itemsInCart.set(cart.length);
+
+            // window.location.href = `/cart`;
+        });
     });
 </script>
 

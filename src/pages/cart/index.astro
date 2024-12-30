@@ -94,19 +94,25 @@ const total = products.reduce(
 
 <script>
     import { CartCookiesClient } from "@/lib/cart-cookies";
+    import { itemsInCart } from "@/stores/cart.store";
+    import { navigate } from "astro:transitions/client";
 
-    const deleteButton: NodeListOf<HTMLButtonElement> =
-        document.querySelectorAll(".btn-delete");
+    document.addEventListener("astro:page-load", () => {
+        const deleteButton: NodeListOf<HTMLButtonElement> =
+            document.querySelectorAll(".btn-delete");
 
-    deleteButton.forEach((button) => {
-        button.addEventListener("click", (event) => {
-            const target = event.target as HTMLButtonElement;
-            const productId = target.dataset.id || "";
-            const size = target.dataset.size || "";
+        deleteButton.forEach((button) => {
+            button.addEventListener("click", async (event) => {
+                const target = event.target as HTMLButtonElement;
+                const productId = target.dataset.id || "";
+                const size = target.dataset.size || "";
 
-            CartCookiesClient.removeItem(productId, size);
+                const cart = CartCookiesClient.removeItem(productId, size);
 
-            window.location.reload();
+                itemsInCart.set(cart.length);
+                // window.location.reload();
+                await navigate("/cart");
+            });
         });
     });
 </script>
