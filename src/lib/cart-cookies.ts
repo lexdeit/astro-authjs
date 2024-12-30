@@ -45,7 +45,7 @@ export class CartCookiesClient {
         const updatedCart = cart.filter(item => !(item.productId === productId && item.size === size));
 
 
-        Cookies.set('cart', JSON.stringify(cart));
+        Cookies.set('cart', JSON.stringify(updatedCart));
 
 
         return updatedCart;
