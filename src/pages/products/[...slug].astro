@@ -13,9 +13,8 @@ if (error) {
     return Astro.redirect("/");
 }
 
-const { product } = data;
+const { product, images } = data;
 
-const { images } = product;
 
 const image = images[0].image.startsWith("http")
     ? images[0].image
