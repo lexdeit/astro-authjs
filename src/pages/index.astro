@@ -25,7 +25,7 @@ const { products, totalPages } = data;
 <MainLayout>
   <h1 class="text-3xl">Home Page</h1>
 
-  <ProductList products={products} client:visible server:defer />
+  <ProductList products={products} client:visible />
 
   <Pagination totalPages={totalPages} />
 </MainLayout>

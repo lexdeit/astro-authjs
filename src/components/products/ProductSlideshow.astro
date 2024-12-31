@@ -21,29 +21,19 @@ const fullImages = images.map((image) => {
     <div class="swiper-wrapper">
         <!-- Slides -->
         {
-            fullImages &&
-                fullImages.map((img) => (
-                    <div class="swiper-slide">
-                        <picture>
-                            <img
-                                src={img}
-                                alt="Product image"
-                                class="w-full object-cover"
-                            />
-                        </picture>
-                    </div>
-                ))
+            fullImages.map((image) => (
+                <div class="swiper-slide">
+                    <img
+                        src={image}
+                        alt="Product image"
+                        class="w-full h-full object-cover px-10"
+                    />
+                </div>
+            ))
         }
     </div>
     <!-- If we need pagination -->
     <div class="swiper-pagination"></div>
-
-    <!-- If we need navigation buttons -->
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-
-    <!-- If we need scrollbar -->
-    <div class="swiper-scrollbar"></div>
 </div>
 
 <style>
@@ -54,16 +44,17 @@ const fullImages = images.map((image) => {
 </style>
 
 <script>
-    // import Swiper JS
     import Swiper from "swiper";
     import { Pagination } from "swiper/modules";
 
-    // import Swiper styles
+    document.addEventListener("astro:page-load", () => {
+        const swiper = new Swiper(".swiper", {
+            // If we need pagination
+            pagination: {
+                el: ".swiper-pagination",
+            },
 
-    const swiper = new Swiper(".swiper", {
-        pagination: {
-            el: ".swiper-pagination",
-        },
-        modules: [Pagination],
+            modules: [Pagination],
+        });
     });
 </script>
